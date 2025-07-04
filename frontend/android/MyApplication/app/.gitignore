@@ -1,0 +1,4 @@
+/build
+
+### Android Retrofit Instance (보안 파일) ###
+/src/main/java/com/example/myapplication/network/RetrofitInstance.kt
