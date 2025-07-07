@@ -4,7 +4,11 @@ DGIST 학생들의 편리한 학교 생활을 돕기 위한 어플리케이션.
 
 ## 주요 기능
 - 달구와의 대화(LLM) (김창규)
-- https://github.com/user-attachments/assets/fa5c9f2d-e576-4b96-bef7-8255a4e609c6
+
+
+https://github.com/user-attachments/assets/c04b6d74-d380-4588-bcd4-816e3752f3d9
+
+
 - 맛집 추천 (황지영)
 - 졸업 요건 확인/커리큘럼 가이드/시간표 (마서진)
 - 공지사항 전달 (이재훈)
