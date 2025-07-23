@@ -1,12 +1,5 @@
-// ChatScreen.kt
 package com.example.myapplication
 
-import com.example.myapplication.network.ChatRequest
-import com.example.myapplication.network.ChatResponse
-import com.example.myapplication.network.RetrofitInstance
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,6 +12,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.myapplication.network.ChatRequest
+import com.example.myapplication.network.ChatResponse
+import com.example.myapplication.network.RetrofitInstance
+import com.example.myapplication.ui.components.HeaderBar  // ✅ 외부 HeaderBar import
+
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 @Composable
 fun ChatScreen(navController: NavController) {
@@ -26,23 +27,48 @@ fun ChatScreen(navController: NavController) {
     val messages = remember { mutableStateListOf<ChatMessage>() }
     var inputText by remember { mutableStateOf("") }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(8.dp)
-    ) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            Spacer(modifier = Modifier.height(8.dp))
-            HeaderBar(onMenuClick = { navController.navigate("next") },
+    Scaffold(
+        topBar = {
+            HeaderBar(
+                onMenuClick = { navController.navigate("next") },
                 navController = navController
-                )
-            Spacer(modifier = Modifier.height(16.dp))
+            )
+        },
+        bottomBar = {
+            ChatInputBar(
+                inputText = inputText,
+                onTextChange = { inputText = it },
+                onSendClick = {
+                    if (inputText.isNotBlank()) {
+                        val userMessage = inputText
+                        messages.add(ChatMessage(userMessage, isUser = true))
+                        inputText = ""
 
+                        val request = ChatRequest(message = userMessage)
+                        RetrofitInstance.chatApi.sendMessage(request).enqueue(object : Callback<ChatResponse> {
+                            override fun onResponse(call: Call<ChatResponse>, response: Response<ChatResponse>) {
+                                val reply = response.body()?.reply ?: "응답 오류"
+                                messages.add(ChatMessage(reply, isUser = false))
+                            }
+
+                            override fun onFailure(call: Call<ChatResponse>, t: Throwable) {
+                                messages.add(ChatMessage("❗ 서버 연결 실패: ${t.message}", isUser = false))
+                            }
+                        })
+                    }
+                }
+            )
+        },
+        content = { innerPadding ->
             Column(
                 modifier = Modifier
-                    .weight(1f)
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(horizontal = 8.dp)
                     .verticalScroll(rememberScrollState())
             ) {
+                Spacer(modifier = Modifier.height(8.dp))
+
                 messages.forEach { msg ->
                     Row(
                         modifier = Modifier
@@ -77,78 +103,13 @@ fun ChatScreen(navController: NavController) {
                         }
                     }
                 }
+
+                Spacer(modifier = Modifier.height(56.dp)) // 하단 입력창과 겹치지 않도록
             }
         }
-
-        Box(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 16.dp)
-        ) {
-            ChatInputBar(
-                inputText = inputText,
-                onTextChange = { inputText = it },
-                onSendClick = {
-                    if (inputText.isNotBlank()) {
-                        val userMessage = inputText
-                        messages.add(ChatMessage(userMessage, isUser = true)) // 사용자 메시지
-                        inputText = ""
-
-                        val request = ChatRequest(message = userMessage)
-                        RetrofitInstance.api.sendMessage(request).enqueue(object : Callback<ChatResponse> {
-                            override fun onResponse(call: Call<ChatResponse>, response: Response<ChatResponse>) {
-                                val reply = response.body()?.reply ?: "응답 오류"
-                                messages.add(ChatMessage(reply, isUser = false)) // ✅ GPT 응답도 같은 구조로 추가
-                            }
-
-                            override fun onFailure(call: Call<ChatResponse>, t: Throwable) {
-                                messages.add(ChatMessage("❗ 서버 연결 실패: ${t.message}", isUser = false)) // ✅ 실패도 같은 구조로
-                            }
-                        })
-                    }
-                }
-
-
-            )
-        }
-    }
+    )
 }
 
-@Composable
-fun HeaderBar(onMenuClick: () -> Unit, navController: NavController) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(56.dp)
-            .padding(top = 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.menu),
-            contentDescription = "Menu",
-            modifier = Modifier
-                .size(24.dp)
-                .clickable { onMenuClick() }
-        )
-        Text(
-            text = "DGlife",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.clickable {
-                navController.navigate("main_menu") {
-                    popUpTo("main_menu") { inclusive = false }
-                    launchSingleTop = true
-                }
-            }
-        )
-        Image(
-            painter = painterResource(id = R.drawable.profile_image),
-            contentDescription = "Profile",
-            modifier = Modifier.size(24.dp)
-        )
-    }
-}
 
 @Composable
 fun ChatInputBar(
