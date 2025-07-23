@@ -16,8 +16,8 @@ https://github.com/user-attachments/assets/c04b6d74-d380-4588-bcd4-816e3752f3d9
 ## 기술 스택
 
 ### 백엔드
-- Framework: Spring Boot / FastAPI (선택)
-- Database: MySQL (예시)
+- Framework: Spring Boot 
+- Database: MySQL
 
 ### 프론트엔드
 | 플랫폼     | 추천 기술 스택                 | 개발환경(IDE)      |
@@ -26,10 +26,4 @@ https://github.com/user-attachments/assets/c04b6d74-d380-4588-bcd4-816e3752f3d9
 | iOS     | Swift + SwiftUI          | Xcode          |
 
 
-## 개발 환경 설정 방법
-
-### 백엔드
-```bash
-cd backend
-# 설치 및 실행 방법 (나중에 추가)
 
