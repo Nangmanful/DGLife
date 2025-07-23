@@ -38,6 +38,8 @@ class MainActivity : ComponentActivity() {
                         composable("main_menu") { MainMenuScreen(navController) }
                         composable("chat") { ChatScreen(navController) }
                         composable("next") { NextScreen(navController) }
+                        composable("login") { LoginScreen(navController) }
+                        composable("signup") { SignupScreen(navController) }
                     }
                 } else {
                     Box(
