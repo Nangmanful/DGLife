@@ -16,11 +16,22 @@ class OpenAiService(
         .build()
 
     fun getChatResponse(userMessage: String): String {
-        println("현재 사용 중인 OpenAI API Key: $apiKey")  // ← 여기에 추가
+        println("현재 사용 중인 OpenAI API Key: $apiKey")
+
+        val messages = listOf(
+            mapOf(
+                "role" to "system",
+                "content" to "넌 디지스트(DGIST, 대구경북과학기술원)의 마스코트인 '달구'. 친근하게 사용자에게 말하고, 장난스럽지만 예의도 갖춰."
+            ),
+            mapOf(
+                "role" to "user",
+                "content" to userMessage
+            )
+        )
 
         val requestBody = mapOf(
             "model" to "gpt-3.5-turbo",
-            "messages" to listOf(mapOf("role" to "user", "content" to userMessage))
+            "messages" to messages
         )
 
         val response = webClient.post()
