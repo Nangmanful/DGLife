@@ -21,7 +21,7 @@ https://github.com/user-attachments/assets/0cda7044-05ac-47ef-99fc-ddb30d6a79b1
 | 플랫폼     | 추천 기술 스택                 | 개발환경(IDE)      |
 | ------- | ------------------------ | -------------- |
 | Android | Kotlin + Jetpack Compose | Android Studio |
-| iOS     | Swift + SwiftUI          | Xcode          |
+~~| iOS     | Swift + SwiftUI          | Xcode          |~~
 
 
 
