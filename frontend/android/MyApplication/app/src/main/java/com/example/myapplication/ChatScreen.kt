@@ -16,6 +16,8 @@ import com.example.myapplication.network.ChatRequest
 import com.example.myapplication.network.ChatResponse
 import com.example.myapplication.network.RetrofitInstance
 import com.example.myapplication.ui.components.HeaderBar  // ✅ 외부 HeaderBar import
+import com.example.myapplication.util.TokenManager
+import androidx.compose.ui.platform.LocalContext
 
 import retrofit2.Call
 import retrofit2.Callback
@@ -26,6 +28,7 @@ fun ChatScreen(navController: NavController) {
     data class ChatMessage(val content: String, val isUser: Boolean)
     val messages = remember { mutableStateListOf<ChatMessage>() }
     var inputText by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -44,7 +47,13 @@ fun ChatScreen(navController: NavController) {
                         messages.add(ChatMessage(userMessage, isUser = true))
                         inputText = ""
 
-                        val request = ChatRequest(message = userMessage)
+                        val userId = TokenManager.getUsername(context) ?: "anonymous"  // ← 사용자 ID 가져오기
+
+                        val request = ChatRequest(
+                            userId = userId,              // ✅ userId 추가
+                            message = userMessage
+                        )                   
+                             
                         RetrofitInstance.chatApi.sendMessage(request).enqueue(object : Callback<ChatResponse> {
                             override fun onResponse(call: Call<ChatResponse>, response: Response<ChatResponse>) {
                                 val reply = response.body()?.reply ?: "응답 오류"
