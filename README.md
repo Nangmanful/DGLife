@@ -23,5 +23,7 @@ https://github.com/user-attachments/assets/0cda7044-05ac-47ef-99fc-ddb30d6a79b1
 | Android | Kotlin + Jetpack Compose | Android Studio |
 | ~~iOS~~     | ~~Swift + SwiftUI~~          | ~~Xcode~~          |
 
+### 향후계획
+React Native로 플랫폼 통합 구현
 
 
