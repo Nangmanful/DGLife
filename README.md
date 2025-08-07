@@ -7,6 +7,13 @@ DGIST 학생들의 편리한 학교 생활을 돕기 위한 어플리케이션.
 
 https://github.com/user-attachments/assets/0cda7044-05ac-47ef-99fc-ddb30d6a79b1
 
+### React_Native_ver
+<img width="447" height="890" alt="4" src="https://github.com/user-attachments/assets/9ff86c83-2a4f-41b1-a825-09b1941c1ca5" />
+<img width="425" height="882" alt="3" src="https://github.com/user-attachments/assets/c1849d48-03aa-4bdf-97f2-79ce9b42aecf" />
+<img width="452" height="877" alt="2" src="https://github.com/user-attachments/assets/8cf130d1-2559-4d99-9531-0e73f50567ac" />
+<img width="441" height="872" alt="1" src="https://github.com/user-attachments/assets/909da8f7-517e-4465-8610-ecb567157589" />
+
+
 - 맛집 추천 (황지영)
 - 졸업 요건 확인/커리큘럼 가이드/시간표 (마서진)
 - 공지사항 전달
